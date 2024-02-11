@@ -1,0 +1,1351 @@
+openapi: 3.0.0
+info:
+  title: Online Booking Service API
+  version: 1.0.0
+  description: API for managing online bookings for various companies.
+tags:
+  - name: Companies
+    description: Operations related to companies
+  - name: Employees
+    description: Operations related to employees
+  - name: EmployeesSchedule
+    description: Operations related to employees schedule
+  - name: Appointments
+    description: Operations related to appointments
+  - name: Users
+    description: Operations related to users
+  - name: Services
+    description: Operations related to services
+  - name: Reviews
+    description: Operations related to reviews
+paths:
+  /companies:
+    get:
+      summary: Get list of companies
+      operationId: getCompanies
+      tags:
+        - Companies
+      responses:
+        '200':
+          description: A list of companies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Company'
+    post:
+      summary: Create a new company
+      operationId: createCompany
+      tags:
+        - Companies
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Company'
+      responses:
+        '200':
+          description: Company created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+  /companies/{companyId}:
+    get:
+      summary: Get company by ID
+      operationId: getCompanyById
+      tags:
+        - Companies
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single company
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+        '404':
+          description: Company not found
+    put:
+      summary: Update company by ID
+      operationId: updateCompanyById
+      tags:
+        - Companies
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Company'
+      responses:
+        '200':
+          description: Company updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+        '404':
+          description: Company not found
+    delete:
+      summary: Delete company by ID
+      operationId: deleteCompanyById
+      tags:
+        - Companies
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Company deleted successfully
+  /companies/{companyId}/logo:
+    post:
+      summary: Upload company logo
+      operationId: uploadCompanyLogo
+      tags:
+        - Companies
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Logo uploaded successfully
+        '400':
+          description: Bad request, invalid file format
+        '404':
+          description: Company not found
+    get:
+      summary: Get company logo
+      operationId: getCompanyLogo
+      tags:
+        - Companies
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Company logo retrieved successfully
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Company logo not found
+  /companies/{companyId}/services:
+    get:
+      summary: Get list of services offered by a company
+      operationId: getServicesByCompany
+      tags:
+        - Services
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+    post:
+      summary: Create a new service for a company
+      operationId: createService
+      tags:
+        - Services
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+      responses:
+        '200':
+          description: Service created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+  /companies/{companyId}/services/{serviceId}/image:
+    post:
+      summary: Upload image for service
+      operationId: uploadServiceImage
+      tags:
+        - Services
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: serviceId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Image uploaded successfully
+        '400':
+          description: Bad request, invalid file format
+        '404':
+          description: Company or service not found
+    get:
+      summary: Get image for service
+      operationId: getServiceImage
+      tags:
+        - Services
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: serviceId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Service image retrieved successfully
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Service image not found
+  /services/{serviceId}:
+    get:
+      summary: Get service by ID
+      operationId: getServiceById
+      tags:
+        - Services
+      parameters:
+        - in: path
+          name: serviceId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '404':
+          description: Service not found
+    put:
+      summary: Update service by ID
+      operationId: updateServiceById
+      tags:
+        - Services
+      parameters:
+        - in: path
+          name: serviceId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+      responses:
+        '200':
+          description: Service updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '404':
+          description: Service not found
+    delete:
+      summary: Delete service by ID
+      operationId: deleteServiceById
+      tags:
+        - Services
+      parameters:
+        - in: path
+          name: serviceId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Service deleted successfully
+  /companies/{companyId}/employees:
+    get:
+      summary: Get list of employees for a company
+      operationId: getEmployeesByCompany
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of employees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+    post:
+      summary: Create a new employee
+      operationId: createEmployee
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Employee created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+  /companies/{companyId}/employees/search:
+    get:
+      summary: Search employees by name
+      operationId: searchEmployees
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of employees matching the search criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+  /employees/{employeeId}:
+    get:
+      summary: Get employee details by ID
+      operationId: getEmployeeById
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Employee details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '404':
+          description: Employee not found
+    put:
+      summary: Update employee by ID
+      operationId: updateEmployeeById
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Employee updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '404':
+          description: Employee not found
+    delete:
+      summary: Delete employee by ID
+      operationId: deleteEmployeeById
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Employee deleted successfully
+  /employees/{employeeId}/avatar:
+    post:
+      summary: Upload employee avatar
+      operationId: uploadEmployeeAvatar
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Avatar uploaded successfully
+        '400':
+          description: Bad request, invalid file format
+        '404':
+          description: Employee not found
+    get:
+      summary: Get employee avatar
+      operationId: getEmployeeAvatar
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Employee avatar retrieved successfully
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Employee avatar not found
+  /appointments:
+    get:
+      summary: Get list of appointments
+      operationId: getAppointments
+      tags:
+        - Appointments
+      responses:
+        '200':
+          description: A list of appointments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+    post:
+      summary: Create a new appointment
+      operationId: createAppointment
+      tags:
+        - Appointments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        '200':
+          description: Appointment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+  /appointments/{appointmentId}:
+    get:
+      summary: Get appointment by ID
+      operationId: getAppointmentById
+      tags:
+        - Appointments
+      parameters:
+        - in: path
+          name: appointmentId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single appointment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        '404':
+          description: Appointment not found
+    put:
+      summary: Update appointment by ID
+      operationId: updateAppointmentById
+      tags:
+        - Appointments
+      parameters:
+        - in: path
+          name: appointmentId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        '200':
+          description: Appointment updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        '404':
+          description: Appointment not found
+    delete:
+      summary: Cancel appointment by ID
+      operationId: deleteAppointmentById
+      tags:
+        - Appointments
+      parameters:
+        - in: path
+          name: appointmentId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Appointment canceled successfully
+  /users/{userId}/appointments:
+    get:
+      summary: Get list of appointments for a user
+      operationId: getAppointmentsByUser
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of appointments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+  /employees/{employeeId}/appointments:
+    get:
+      summary: Get list of appointments for an employee
+      operationId: getAppointmentsByEmployee
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of appointments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+  /users:
+    post:
+      summary: Create a new user
+      operationId: createUser
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{userId}:
+    get:
+      summary: Get user by ID
+      operationId: getUserById
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+    put:
+      summary: Update user by ID
+      operationId: updateUserById
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+    delete:
+      summary: Delete user by ID
+      operationId: deleteUserById
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: User deleted successfully
+  /users/{userId}/avatar:
+    post:
+      summary: Upload user avatar
+      operationId: uploadUserAvatar
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Avatar uploaded successfully
+        '400':
+          description: Bad request, invalid file format
+        '404':
+          description: User not found
+    get:
+      summary: Get user avatar
+      operationId: getUserAvatar
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User avatar retrieved successfully
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: User avatar not found
+  /employees/{employeeId}/schedule:
+    get:
+      summary: Get employee work schedule by ID
+      operationId: getEmployeeWorkSchedule
+      tags:
+        - EmployeesSchedule
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Employee work schedule retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeWorkSchedule'
+    post:
+      summary: Create work schedule for an employee
+      operationId: createEmployeeWorkSchedule
+      tags:
+        - EmployeesSchedule
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_schedule:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/EmployeeWorkSchedule'
+      responses:
+        '200':
+          description: Work schedule created successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeWorkSchedule'
+    put:
+      summary: Update work schedule for an employee
+      operationId: updateEmployeeWorkSchedule
+      tags:
+        - EmployeesSchedule
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/EmployeeWorkSchedule'
+      responses:
+        '200':
+          description: Work schedule updated successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeWorkSchedule'
+  /employees/{employeeId}/schedule/exceptions:
+    get:
+      summary: Get employee schedule exceptions by ID
+      operationId: getEmployeeScheduleExceptions
+      tags:
+        - EmployeesSchedule
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Employee schedule exceptions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScheduleException'
+    post:
+      summary: Create a new schedule exception for an employee
+      operationId: createEmployeeScheduleException
+      tags:
+        - EmployeesSchedule
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleException'
+      responses:
+        '200':
+          description: Schedule exception created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleException'
+  /employees/{employeeId}/schedule/exceptions/{exceptionId}:
+    put:
+      summary: Update schedule exception for an employee
+      operationId: updateEmployeeScheduleException
+      tags:
+        - EmployeesSchedule
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: exceptionId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleException'
+      responses:
+        '200':
+          description: Schedule exception updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleException'
+        '404':
+          description: Schedule exception not found
+    delete:
+      summary: Delete schedule exception for an employee
+      operationId: deleteEmployeeScheduleException
+      tags:
+        - EmployeesSchedule
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: exceptionId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Schedule exception deleted successfully
+  /companies/{companyId}/employees/{employeeId}/services/{serviceId}/available-slots:
+    get:
+      summary: Get available time slots for booking
+      operationId: getAvailableAppointmentSlots
+      tags:
+        - Appointments
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: serviceId
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: date
+          required: true
+          schema:
+            type: string
+            format: date
+          description: Date for which available slots are requested
+      responses:
+        '200':
+          description: List of available time slots
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    start_time:
+                      type: string
+                      format: time
+                    end_time:
+                      type: string
+                      format: time
+        '404':
+          description: No available time slots found for the specified date
+  /employees/{employeeId}/reviews:
+    get:
+      summary: Get reviews for an employee
+      operationId: getReviewsByEmployee
+      tags:
+        - Reviews
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of reviews for the employee
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
+        '404':
+          description: No reviews found for the employee
+    post:
+      summary: Create a new review for an employee
+      operationId: createReviewForEmployee
+      tags:
+        - Reviews
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewInput'
+      responses:
+        '200':
+          description: Review created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+  /reviews/{reviewId}:
+    get:
+      summary: Get review by ID
+      operationId: getReviewById
+      tags:
+        - Reviews
+      parameters:
+        - in: path
+          name: reviewId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '404':
+          description: Review not found
+    put:
+      summary: Update review by ID
+      operationId: updateReviewById
+      tags:
+        - Reviews
+      parameters:
+        - in: path
+          name: reviewId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewInput'
+      responses:
+        '200':
+          description: Review updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '404':
+          description: Review not found
+    delete:
+      summary: Delete review by ID
+      operationId: deleteReviewById
+      tags:
+        - Reviews
+      parameters:
+        - in: path
+          name: reviewId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Review deleted successfully
+  /companies/{companyId}/reviews:
+    get:
+      summary: Get reviews for a company
+      operationId: getReviewsByCompany
+      tags:
+        - Reviews
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of reviews for the company
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
+        '404':
+          description: No reviews found for the company
+    post:
+      summary: Create a new review for a company
+      operationId: createReviewForCompany
+      tags:
+        - Reviews
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewInput'
+      responses:
+        '200':
+          description: Review created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+components:
+  schemas:
+    Company:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        hasLogo:
+          type: boolean
+        phoneNumber:
+          type: string
+        address:
+          type: string
+      required:
+        - name
+        - phoneNumber
+        - address
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+        companyId:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        duration:
+          type: integer
+        hasImage:
+          type: boolean
+      required:
+        - title
+        - price
+        - duration
+    Appointment:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        employeeId:
+          type: integer
+        serviceId:
+          type: integer
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        status:
+          type: string
+      required:
+        - userId
+        - employeeId
+        - serviceId
+        - startTime
+        - endTime
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phoneNumber:
+          type: string
+        phoneNumberConfirmed:
+          type: boolean
+        hasAvatar:
+          type: boolean
+      required:
+        - name
+        - password
+        - phoneNumber
+    Employee:
+      type: object
+      properties:
+        id:
+          type: integer
+        companyId:
+          type: integer
+        name:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: string
+        hasAvatar:
+          type: boolean
+      required:
+        - companyId
+        - name
+        - phoneNumber
+        - address
+    EmployeeWorkSchedule:
+      type: object
+      properties:
+        id:
+          type: integer
+        employeeId:
+          type: integer
+        dayOfWeek:
+          type: string
+        startTime:
+          type: string
+          format: time
+        endTime:
+          type: string
+          format: time
+        lunchStartTime:
+          type: string
+          format: time
+        lunchEndTime:
+          type: string
+          format: time
+      required:
+        - employeeId
+        - dayOfWeek
+        - startTime
+        - endTime
+        - lunchStartTime
+        - lunchEndTime
+    ScheduleException:
+      type: object
+      properties:
+        id:
+          type: integer
+        employeeId:
+          type: integer
+        createdDate:
+          type: string
+          format: date-time
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        reason:
+          type: string
+      required:
+        - employeeId
+        - startDate
+        - reason
+    ReviewInput:
+      type: object
+      properties:
+        rating:
+          type: integer
+          description: The rating given by the user (1-5).
+        comment:
+          type: string
+          description: Optional comment provided by the user.
+      required:
+        - rating
+    Review:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the review.
+        companyId:
+          type: integer
+          description: The ID of the company being reviewed.
+        employeeId:
+          type: integer
+          description: The ID of the employee being reviewed (if applicable).
+        userId:
+          type: integer
+          description: The ID of the user who submitted the review.
+        rating:
+          type: integer
+          description: The rating given by the user (1-5).
+        comment:
+          type: string
+          description: Optional comment provided by the user.
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time when the review was created.
+      required:
+        - companyId
+        - userId
+        - rating

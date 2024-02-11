@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="uuid_function" value="gen_random_uuid()" dbms="postgresql"/>
+
+    <changeSet id="1" author="elviruses">
+        <createTable tableName="COMPANIES">
+            <column name="ID" type="UUID" valueComputed="${uuid_function}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)" remarks="Наименование компании">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LOGO" type="BYTEA" remarks="Логотип компании"/>
+            <column name="PHONE_NUMBER" type="INTEGER"/>
+            <column name="ADDRESS" type="VARCHAR(1024)"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="COMPANIES"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2" author="elviruses">
+        <createTable tableName="SPECIALIZATIONS">
+            <column name="ID" type="UUID" valueComputed="${uuid_function}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)" remarks="Наименование специализации">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(1024)" remarks="Описание специализации"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="SPECIALIZATIONS"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="3" author="elviruses">
+        <createTable tableName="SERVICES">
+            <column name="ID" type="UUID" valueComputed="${uuid_function}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="COMPANY_ID" type="UUID"
+                    remarks="Идентификатор компании, внешний ключ, связывающий запись с компанией">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TITLE" type="VARCHAR(255)" remarks="Название услуги">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(1024)" remarks="Описание услуги"/>
+            <column name="PRICE" type="DECIMAL(10,2)" remarks="Стоимость услуги"/>
+            <column name="DURATION" type="INTEGER" remarks="Продолжительность в минутах"/>
+            <column name="IMAGE" type="BYTEA" remarks="Изображение услуги"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="SERVICES"
+                                 baseColumnNames="COMPANY_ID"
+                                 constraintName="FK_SERVICES_COMPANY_ID"
+                                 referencedTableName="COMPANIES"
+                                 referencedColumnNames="ID"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="SERVICES"/>
+            <dropTable tableName="SERVICES"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="4" author="elviruses">
+        <createTable tableName="EMPLOYEES">
+            <column name="ID" type="UUID" valueComputed="${uuid_function}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="COMPANY_ID" type="UUID"
+                    remarks="Идентификатор компании, внешний ключ, связывающий запись с компанией">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)" remarks="ФИО сотрудника">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PHONE_NUMBER" type="INTEGER" remarks="Номер телефона">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ADDRESS" type="VARCHAR(1024)" remarks="Адрес"/>
+            <column name="AVATAR" type="BYTEA" remarks="Аватар сотрудника"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="EMPLOYEES"
+                                 baseColumnNames="COMPANY_ID"
+                                 constraintName="FK_EMPLOYEES_COMPANY_ID"
+                                 referencedTableName="COMPANIES"
+                                 referencedColumnNames="ID"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="EMPLOYEES"/>
+            <dropTable tableName="EMPLOYEES"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="5" author="elviruses">
+        <createTable tableName="EMPLOYEE_WORK_SCHEDULE">
+            <column name="ID" type="UUID" valueComputed="${uuid_function}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="EMPLOYEE_ID" type="UUID"
+                    remarks="Идентификатор сотрудника, внешний ключ, связывающий запись с сотрудником">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DAY_OF_WEEK" type="VARCHAR(255)" remarks="День недели (MONDAY, TUESDAY...)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_TIME" type="TIME" remarks="Время начала работы">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_TIME" type="TIME" remarks="Время окончания работы">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LUNCH_START_TIME" type="TIME" remarks="Время начала обеденного перерыва">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LUNCH_END_TIME" type="TIME" remarks="Время окончания обеденного перерыва">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="EMPLOYEE_WORK_SCHEDULE"
+                                 baseColumnNames="EMPLOYEE_ID"
+                                 constraintName="FK_EMPLOYEE_WORK_SCHEDULE_EMPLOYEE_ID"
+                                 referencedTableName="EMPLOYEES"
+                                 referencedColumnNames="ID"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="EMPLOYEE_WORK_SCHEDULE"/>
+            <dropTable tableName="EMPLOYEE_WORK_SCHEDULE"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="6" author="elviruses">
+        <createTable tableName="EMPLOYEE_WORK_SCHEDULE_EXCEPTIONS">
+            <column name="ID" type="UUID" valueComputed="${uuid_function}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="EMPLOYEE_ID" type="UUID"
+                    remarks="Идентификатор сотрудника, внешний ключ, связывающий запись с сотрудником">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATE_TIME" type="TIMESTAMP" remarks="Дата и время создания записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_TIME" type="TIMESTAMP" remarks="Время начала исключения">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_TIME" type="TIMESTAMP" remarks="Время окончания исключения"/>
+            <column name="REASON" type="VARCHAR(1024)" remarks="Причина (отпуск, больничный, событие...)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="EMPLOYEE_WORK_SCHEDULE_EXCEPTIONS"
+                                 baseColumnNames="EMPLOYEE_ID"
+                                 constraintName="FK_EMPLOYEE_WORK_SCHEDULE_EXCEPTIONS_EMPLOYEE_ID"
+                                 referencedTableName="EMPLOYEES"
+                                 referencedColumnNames="ID"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="EMPLOYEE_WORK_SCHEDULE_EXCEPTIONS"/>
+            <dropTable tableName="EMPLOYEE_WORK_SCHEDULE_EXCEPTIONS"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="7" author="elviruses">
+        <createTable tableName="EMPLOYEE_SPECIALIZATIONS">
+            <column name="EMPLOYEE_ID" type="UUID" remarks="Идентификатор сотрудника, внешний ключ, связывающий запись с сотрудником">>
+                <constraints nullable="false"/>
+            </column>
+            <column name="SPECIALIZATION_ID" type="UUID" remarks="Идентификатор специализации, внешний ключ, связывающий запись со специализациями сотрудника">>
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="EMPLOYEE_SPECIALIZATIONS"
+                                 baseColumnNames="EMPLOYEE_ID"
+                                 constraintName="FK_EMPLOYEE_SPECIALIZATIONS_EMPLOYEE_ID"
+                                 referencedTableName="EMPLOYEES"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="EMPLOYEE_SPECIALIZATIONS"
+                                 baseColumnNames="SPECIALIZATION_ID"
+                                 constraintName="FK_EMPLOYEE_SPECIALIZATIONS_SPECIALIZATION_ID"
+                                 referencedTableName="SPECIALIZATIONS"
+                                 referencedColumnNames="ID"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="EMPLOYEE_SPECIALIZATIONS"/>
+            <dropTable tableName="EMPLOYEE_SPECIALIZATIONS"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="8" author="elviruses">
+        <createTable tableName="EMPLOYEE_SERVICES">
+            <column name="EMPLOYEE_ID" type="UUID" remarks="Идентификатор сотрудника, внешний ключ, связывающий запись с сотрудником">>
+                <constraints nullable="false"/>
+            </column>
+            <column name="SERVICE_ID" type="UUID" remarks="Идентификатор услуги, внешний ключ, связывающий запись с предоставляемой услугой">>
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="EMPLOYEE_SERVICES"
+                                 baseColumnNames="EMPLOYEE_ID"
+                                 constraintName="FK_EMPLOYEE_SERVICES_EMPLOYEE_ID"
+                                 referencedTableName="EMPLOYEES"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="EMPLOYEE_SERVICES"
+                                 baseColumnNames="SERVICE_ID"
+                                 constraintName="FK_EMPLOYEE_SERVICES_SERVICE_ID"
+                                 referencedTableName="SERVICES"
+                                 referencedColumnNames="ID"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="EMPLOYEE_SERVICES"/>
+            <dropTable tableName="EMPLOYEE_SERVICES"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="9" author="elviruses">
+        <createTable tableName="USERS">
+            <column name="ID" type="UUID" valueComputed="${uuid_function}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)" remarks="ФИО пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR(255)" remarks="Электронная почта">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PASSWORD" type="VARCHAR(255)" remarks="Пароль">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PHONE_NUMBER" type="INTEGER" remarks="Номер телефона">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PHONE_NUMBER_CONFIRMED" type="BOOLEAN" remarks="Статус подтверждения номера телефона">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AVATAR" type="BYTEA" remarks="Аватар пользователя"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="USERS"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="10" author="elviruses">
+        <createTable tableName="APPOINTMENTS">
+            <column name="ID" type="UUID" valueComputed="${uuid_function}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USER_ID" type="UUID"
+                    remarks="Идентификатор пользователя, внешний ключ, связывающий запись с пользователем">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EMPLOYEE_ID" type="UUID"
+                    remarks="Идентификатор сотрудника, внешний ключ, связывающий запись с сотрудником">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SERVICE_ID" type="UUID"
+                    remarks="идентификатор услуги, внешний ключ, связывающий запись с услугой">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_DATE_TIME" type="TIMESTAMP" remarks="Дата и время начала"/>
+            <column name="END_DATE_TIME" type="TIMESTAMP" remarks="Дата и время окончания"/>
+            <column name="STATUS" type="VARCHAR(255)"
+                    remarks="Статус (Подтверждена, Отменена, Ожидает подтверждения...)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="APPOINTMENTS"
+                                 baseColumnNames="USER_ID"
+                                 constraintName="FK_APPOINTMENTS_USER_ID"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="APPOINTMENTS"
+                                 baseColumnNames="EMPLOYEE_ID"
+                                 constraintName="FK_APPOINTMENTS_EMPLOYEE_ID"
+                                 referencedTableName="EMPLOYEES"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="APPOINTMENTS"
+                                 baseColumnNames="SERVICE_ID"
+                                 constraintName="FK_APPOINTMENTS_SERVICE_ID"
+                                 referencedTableName="SERVICES"
+                                 referencedColumnNames="ID"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="APPOINTMENTS"/>
+            <dropTable tableName="APPOINTMENTS"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="11" author="elviruses">
+        <createTable tableName="REVIEWS">
+            <column name="ID" type="UUID" valueComputed="${uuid_function}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="COMPANY_ID" type="UUID"
+                    remarks="Идентификатор компании, внешний ключ, связывающий запись с компанией">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID" type="UUID"
+                    remarks="Идентификатор пользователя, внешний ключ, связывающий запись с пользователем">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EMPLOYEE_ID" type="UUID" remarks="Идентификатор сотрудника, внешний ключ, связывающий запись с сотрудником"/>
+            <column name="RATING" type="INTEGER" remarks="Оценка отзыва">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COMMENT" type="TEXT" remarks="Комментарий пользователя"/>
+            <column name="CREATED_AT" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP" remarks="Дата и время создания отзыва"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="REVIEWS"
+                                 baseColumnNames="COMPANY_ID"
+                                 constraintName="FK_REVIEWS_COMPANY_ID"
+                                 referencedTableName="COMPANIES"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="REVIEWS"
+                                 baseColumnNames="USER_ID"
+                                 constraintName="FK_REVIEWS_USER_ID"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="REVIEWS"
+                                 baseColumnNames="EMPLOYEE_ID"
+                                 constraintName="FK_REVIEWS_EMPLOYEE_ID"
+                                 referencedTableName="EMPLOYEES"
+                                 referencedColumnNames="ID"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="REVIEWS"/>
+            <dropTable tableName="REVIEWS"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="12" author="you">
+        <createIndex indexName="IDX_EMPLOYEES_COMPANY_ID" tableName="EMPLOYEES">
+            <column name="COMPANY_ID"/>
+        </createIndex>
+
+        <createIndex indexName="IDX_SERVICES_COMPANY_ID" tableName="SERVICES">
+            <column name="COMPANY_ID"/>
+        </createIndex>
+
+        <createIndex indexName="IDX_APPOINTMENTS_USER_ID" tableName="APPOINTMENTS">
+            <column name="USER_ID"/>
+        </createIndex>
+        <createIndex indexName="IDX_APPOINTMENTS_EMPLOYEE_ID" tableName="APPOINTMENTS">
+            <column name="EMPLOYEE_ID"/>
+        </createIndex>
+        <createIndex indexName="IDX_APPOINTMENTS_SERVICE_ID" tableName="APPOINTMENTS">
+            <column name="SERVICE_ID"/>
+        </createIndex>
+        <createIndex indexName="IDX_APPOINTMENTS_EMPLOYEE_ID_DATE_TIME" tableName="APPOINTMENTS">
+            <column name="EMPLOYEE_ID"/>
+            <column name="START_DATE_TIME"/>
+            <column name="END_DATE_TIME"/>
+        </createIndex>
+
+        <createIndex indexName="IDX_USERS_PHONE_NUMBER" tableName="USERS">
+            <column name="PHONE_NUMBER"/>
+        </createIndex>
+
+        <createIndex indexName="IDX_REVIEWS_USER_ID" tableName="REVIEWS">
+            <column name="USER_ID"/>
+        </createIndex>
+        <createIndex indexName="IDX_REVIEWS_EMPLOYEE_ID" tableName="REVIEWS">
+            <column name="EMPLOYEE_ID"/>
+        </createIndex>
+        <createIndex indexName="IDX_REVIEWS_COMPANY_ID" tableName="REVIEWS">
+            <column name="COMPANY_ID"/>
+        </createIndex>
+
+        <createIndex indexName="IDX_EMPLOYEE_WORK_SCHEDULE_EMPLOYEE_ID" tableName="EMPLOYEE_WORK_SCHEDULE">
+            <column name="EMPLOYEE_ID"/>
+        </createIndex>
+
+        <createIndex indexName="IDX_EMPLOYEE_WORK_SCHEDULE_EXCEPTIONS_EMPLOYEE_ID" tableName="EMPLOYEE_WORK_SCHEDULE_EXCEPTIONS">
+            <column name="EMPLOYEE_ID"/>
+        </createIndex>
+        
+        <addUniqueConstraint tableName="EMPLOYEE_WORK_SCHEDULE" columnNames="EMPLOYEE_ID, DAY_OF_WEEK"/>
+
+        <rollback>
+            <dropIndex tableName="EMPLOYEES" indexName="IDX_EMPLOYEES_COMPANY_ID"/>
+            <dropIndex tableName="SERVICES" indexName="IDX_SERVICES_COMPANY_ID"/>
+            <dropIndex tableName="APPOINTMENTS" indexName="IDX_APPOINTMENTS_USER_ID"/>
+            <dropIndex tableName="APPOINTMENTS" indexName="IDX_APPOINTMENTS_EMPLOYEE_ID"/>
+            <dropIndex tableName="APPOINTMENTS" indexName="IDX_APPOINTMENTS_SERVICE_ID"/>
+            <dropIndex tableName="APPOINTMENTS" indexName="IDX_APPOINTMENTS_EMPLOYEE_ID_DATE_TIME"/>
+            <dropIndex tableName="USERS" indexName="IDX_USERS_PHONE_NUMBER"/>
+            <dropIndex tableName="REVIEWS" indexName="IDX_REVIEWS_USER_ID"/>
+            <dropIndex tableName="REVIEWS" indexName="IDX_REVIEWS_EMPLOYEE_ID"/>
+            <dropIndex tableName="REVIEWS" indexName="IDX_REVIEWS_COMPANY_ID"/>
+            <dropIndex tableName="EMPLOYEE_WORK_SCHEDULE" indexName="IDX_EMPLOYEE_WORK_SCHEDULE_EMPLOYEE_ID"/>
+            <dropIndex tableName="EMPLOYEE_WORK_SCHEDULE_EXCEPTIONS" indexName="IDX_EMPLOYEE_WORK_SCHEDULE_EXCEPTIONS_EMPLOYEE_ID"/>
+            <dropUniqueConstraint tableName="EMPLOYEE_WORK_SCHEDULE"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
