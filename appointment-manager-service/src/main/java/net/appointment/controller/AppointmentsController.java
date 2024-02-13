@@ -16,12 +16,12 @@ public class AppointmentsController implements AppointmentsApi {
     }
 
     @Override
-    public ResponseEntity<Void> deleteAppointmentById(Integer appointmentId) {
+    public ResponseEntity<Void> deleteAppointmentById(String appointmentId) {
         return AppointmentsApi.super.deleteAppointmentById(appointmentId);
     }
 
     @Override
-    public ResponseEntity<Appointment> getAppointmentById(Integer appointmentId) {
+    public ResponseEntity<Appointment> getAppointmentById(String appointmentId) {
         return AppointmentsApi.super.getAppointmentById(appointmentId);
     }
 
@@ -31,7 +31,7 @@ public class AppointmentsController implements AppointmentsApi {
     }
 
     @Override
-    public ResponseEntity<Appointment> updateAppointmentById(Integer appointmentId, Appointment appointment) {
+    public ResponseEntity<Appointment> updateAppointmentById(String appointmentId, Appointment appointment) {
         return AppointmentsApi.super.updateAppointmentById(appointmentId, appointment);
     }
 }

@@ -63,7 +63,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: A single company
@@ -83,7 +83,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -109,7 +109,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: Company deleted successfully
@@ -124,7 +124,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -152,7 +152,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Company logo retrieved successfully
@@ -174,7 +174,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: A list of services
@@ -194,7 +194,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -219,12 +219,12 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
         - in: path
           name: serviceId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -252,12 +252,12 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
         - in: path
           name: serviceId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Service image retrieved successfully
@@ -279,7 +279,7 @@ paths:
           name: serviceId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: A single service
@@ -299,7 +299,7 @@ paths:
           name: serviceId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -325,7 +325,7 @@ paths:
           name: serviceId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: Service deleted successfully
@@ -340,7 +340,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: A list of employees
@@ -360,7 +360,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -385,7 +385,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
         - in: query
           name: name
           required: true
@@ -411,7 +411,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Employee details retrieved successfully
@@ -431,7 +431,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -457,7 +457,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: Employee deleted successfully
@@ -472,7 +472,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -500,7 +500,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Employee avatar retrieved successfully
@@ -555,7 +555,7 @@ paths:
           name: appointmentId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: A single appointment
@@ -575,7 +575,7 @@ paths:
           name: appointmentId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -601,7 +601,7 @@ paths:
           name: appointmentId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: Appointment canceled successfully
@@ -616,7 +616,7 @@ paths:
           name: userId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: A list of appointments
@@ -637,7 +637,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: A list of appointments
@@ -677,7 +677,7 @@ paths:
           name: userId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: A single user
@@ -697,7 +697,7 @@ paths:
           name: userId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -723,7 +723,7 @@ paths:
           name: userId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: User deleted successfully
@@ -738,7 +738,7 @@ paths:
           name: userId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -766,7 +766,7 @@ paths:
           name: userId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: User avatar retrieved successfully
@@ -788,7 +788,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Employee work schedule retrieved successfully
@@ -806,7 +806,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -837,7 +837,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -866,7 +866,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Employee schedule exceptions retrieved successfully
@@ -886,7 +886,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -911,12 +911,12 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
         - in: path
           name: exceptionId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -942,12 +942,12 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
         - in: path
           name: exceptionId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: Schedule exception deleted successfully
@@ -962,17 +962,17 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
         - in: path
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
         - in: path
           name: serviceId
           required: true
           schema:
-            type: integer
+            type: string
         - in: query
           name: date
           required: true
@@ -1009,7 +1009,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: A list of reviews for the employee
@@ -1031,7 +1031,7 @@ paths:
           name: employeeId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -1056,7 +1056,7 @@ paths:
           name: reviewId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: The review
@@ -1076,7 +1076,7 @@ paths:
           name: reviewId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -1102,7 +1102,7 @@ paths:
           name: reviewId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: Review deleted successfully
@@ -1117,7 +1117,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: A list of reviews for the company
@@ -1139,7 +1139,7 @@ paths:
           name: companyId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -1159,7 +1159,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         name:
           type: string
         hasLogo:
@@ -1176,7 +1176,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         companyId:
           type: integer
         title:
@@ -1197,7 +1197,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         userId:
           type: integer
         employeeId:
@@ -1222,18 +1222,21 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         name:
           type: string
         email:
-          type: string
-        password:
           type: string
         phoneNumber:
           type: string
         phoneNumberConfirmed:
           type: boolean
         hasAvatar:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        isActive:
           type: boolean
       required:
         - name
@@ -1243,7 +1246,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         companyId:
           type: integer
         name:
@@ -1254,6 +1257,11 @@ components:
           type: string
         hasAvatar:
           type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        isActive:
+          type: boolean
       required:
         - companyId
         - name
@@ -1263,7 +1271,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         employeeId:
           type: integer
         dayOfWeek:
@@ -1291,10 +1299,10 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         employeeId:
           type: integer
-        createdDate:
+        createdAt:
           type: string
           format: date-time
         startDate:
@@ -1324,7 +1332,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
           description: The unique identifier for the review.
         companyId:
           type: integer

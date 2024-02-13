@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServicesController implements ServicesApi {
 
     @Override
-    public ResponseEntity<Void> deleteServiceById(Integer serviceId) {
+    public ResponseEntity<Void> deleteServiceById(String serviceId) {
         return ServicesApi.super.deleteServiceById(serviceId);
     }
 
     @Override
-    public ResponseEntity<Service> getServiceById(Integer serviceId) {
+    public ResponseEntity<Service> getServiceById(String serviceId) {
         return ServicesApi.super.getServiceById(serviceId);
     }
 
     @Override
-    public ResponseEntity<Service> updateServiceById(Integer serviceId, Service service) {
+    public ResponseEntity<Service> updateServiceById(String serviceId, Service service) {
         return ServicesApi.super.updateServiceById(serviceId, service);
     }
 }

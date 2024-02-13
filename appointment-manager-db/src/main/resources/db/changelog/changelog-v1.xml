@@ -14,7 +14,8 @@
                 <constraints nullable="false"/>
             </column>
             <column name="LOGO" type="BYTEA" remarks="Логотип компании"/>
-            <column name="PHONE_NUMBER" type="INTEGER"/>
+            <column name="HAS_LOGO" type="BOOLEAN" remarks="Флаг указывающий на то, что у компании есть логотип"/>
+            <column name="PHONE_NUMBER" type="VARCHAR(32)"/>
             <column name="ADDRESS" type="VARCHAR(1024)"/>
         </createTable>
         <rollback>
@@ -79,11 +80,14 @@
             <column name="NAME" type="VARCHAR(255)" remarks="ФИО сотрудника">
                 <constraints nullable="false"/>
             </column>
-            <column name="PHONE_NUMBER" type="INTEGER" remarks="Номер телефона">
+            <column name="PHONE_NUMBER" type="VARCHAR(32)" remarks="Номер телефона">
                 <constraints nullable="false"/>
             </column>
             <column name="ADDRESS" type="VARCHAR(1024)" remarks="Адрес"/>
             <column name="AVATAR" type="BYTEA" remarks="Аватар сотрудника"/>
+            <column name="HAS_AVATAR" type="BOOLEAN" remarks="Флаг указывающий на то, что у сотрудника есть аватар"/>
+            <column name="CREATED_AT" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP" remarks="Дата и время создания записи"/>
+            <column name="IS_ACTIVE" type="BOOLEAN" remarks="Флаг указывающий на то, что у аккаунт сотрудника активен"/>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="EMPLOYEES"
@@ -145,7 +149,7 @@
                     remarks="Идентификатор сотрудника, внешний ключ, связывающий запись с сотрудником">
                 <constraints nullable="false"/>
             </column>
-            <column name="DATE_TIME" type="TIMESTAMP" remarks="Дата и время создания записи">
+            <column name="CREATED_AT" type="TIMESTAMP" remarks="Дата и время создания записи">
                 <constraints nullable="false"/>
             </column>
             <column name="START_TIME" type="TIMESTAMP" remarks="Время начала исключения">
@@ -234,16 +238,14 @@
             <column name="EMAIL" type="VARCHAR(255)" remarks="Электронная почта">
                 <constraints nullable="false"/>
             </column>
-            <column name="PASSWORD" type="VARCHAR(255)" remarks="Пароль">
+            <column name="PHONE_NUMBER" type="VARCHAR(32)" remarks="Номер телефона">
                 <constraints nullable="false"/>
             </column>
-            <column name="PHONE_NUMBER" type="INTEGER" remarks="Номер телефона">
-                <constraints nullable="false"/>
-            </column>
-            <column name="PHONE_NUMBER_CONFIRMED" type="BOOLEAN" remarks="Статус подтверждения номера телефона">
-                <constraints nullable="false"/>
-            </column>
+            <column name="PHONE_NUMBER_CONFIRMED" type="BOOLEAN" defaultValueBoolean="false" remarks="Статус подтверждения номера телефона"/>
             <column name="AVATAR" type="BYTEA" remarks="Аватар пользователя"/>
+            <column name="HAS_AVATAR" type="BOOLEAN" remarks="Флаг указывающий на то, что у пользователя есть аватар"/>
+            <column name="CREATED_AT" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP" remarks="Дата и время создания записи"/>
+            <column name="IS_ACTIVE" type="BOOLEAN" remarks="Флаг указывающий на то, что у аккаунт пользователя активен"/>
         </createTable>
         <rollback>
             <dropTable tableName="USERS"/>

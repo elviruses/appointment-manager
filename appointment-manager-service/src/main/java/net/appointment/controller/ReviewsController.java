@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReviewsController implements ReviewsApi {
 
     @Override
-    public ResponseEntity<Void> deleteReviewById(Integer reviewId) {
+    public ResponseEntity<Void> deleteReviewById(String reviewId) {
         return ReviewsApi.super.deleteReviewById(reviewId);
     }
 
     @Override
-    public ResponseEntity<Review> getReviewById(Integer reviewId) {
+    public ResponseEntity<Review> getReviewById(String reviewId) {
         return ReviewsApi.super.getReviewById(reviewId);
     }
 
     @Override
-    public ResponseEntity<Review> updateReviewById(Integer reviewId, ReviewInput reviewInput) {
+    public ResponseEntity<Review> updateReviewById(String reviewId, ReviewInput reviewInput) {
         return ReviewsApi.super.updateReviewById(reviewId, reviewInput);
     }
 }

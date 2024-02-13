@@ -19,27 +19,27 @@ public class CompaniesController implements CompaniesApi {
     }
 
     @Override
-    public ResponseEntity<Employee> createEmployee(Integer companyId, Employee employee) {
+    public ResponseEntity<Employee> createEmployee(String companyId, Employee employee) {
         return CompaniesApi.super.createEmployee(companyId, employee);
     }
 
     @Override
-    public ResponseEntity<Review> createReviewForCompany(Integer companyId, ReviewInput reviewInput) {
+    public ResponseEntity<Review> createReviewForCompany(String companyId, ReviewInput reviewInput) {
         return CompaniesApi.super.createReviewForCompany(companyId, reviewInput);
     }
 
     @Override
-    public ResponseEntity<Service> createService(Integer companyId, Service service) {
+    public ResponseEntity<Service> createService(String companyId, Service service) {
         return CompaniesApi.super.createService(companyId, service);
     }
 
     @Override
-    public ResponseEntity<Void> deleteCompanyById(Integer companyId) {
+    public ResponseEntity<Void> deleteCompanyById(String companyId) {
         return CompaniesApi.super.deleteCompanyById(companyId);
     }
 
     @Override
-    public ResponseEntity<List<GetAvailableAppointmentSlots200ResponseInner>> getAvailableAppointmentSlots(Integer companyId, Integer employeeId, Integer serviceId, LocalDate date) {
+    public ResponseEntity<List<GetAvailableAppointmentSlots200ResponseInner>> getAvailableAppointmentSlots(String companyId, String employeeId, String serviceId, LocalDate date) {
         return CompaniesApi.super.getAvailableAppointmentSlots(companyId, employeeId, serviceId, date);
     }
 
@@ -49,52 +49,52 @@ public class CompaniesController implements CompaniesApi {
     }
 
     @Override
-    public ResponseEntity<Company> getCompanyById(Integer companyId) {
+    public ResponseEntity<Company> getCompanyById(String companyId) {
         return CompaniesApi.super.getCompanyById(companyId);
     }
 
     @Override
-    public ResponseEntity<Resource> getCompanyLogo(Integer companyId) {
+    public ResponseEntity<Resource> getCompanyLogo(String companyId) {
         return CompaniesApi.super.getCompanyLogo(companyId);
     }
 
     @Override
-    public ResponseEntity<List<Employee>> getEmployeesByCompany(Integer companyId) {
+    public ResponseEntity<List<Employee>> getEmployeesByCompany(String companyId) {
         return CompaniesApi.super.getEmployeesByCompany(companyId);
     }
 
     @Override
-    public ResponseEntity<List<Review>> getReviewsByCompany(Integer companyId) {
+    public ResponseEntity<List<Review>> getReviewsByCompany(String companyId) {
         return CompaniesApi.super.getReviewsByCompany(companyId);
     }
 
     @Override
-    public ResponseEntity<Resource> getServiceImage(Integer companyId, Integer serviceId) {
+    public ResponseEntity<Resource> getServiceImage(String companyId, String serviceId) {
         return CompaniesApi.super.getServiceImage(companyId, serviceId);
     }
 
     @Override
-    public ResponseEntity<List<Service>> getServicesByCompany(Integer companyId) {
+    public ResponseEntity<List<Service>> getServicesByCompany(String companyId) {
         return CompaniesApi.super.getServicesByCompany(companyId);
     }
 
     @Override
-    public ResponseEntity<List<Employee>> searchEmployees(Integer companyId, String name) {
+    public ResponseEntity<List<Employee>> searchEmployees(String companyId, String name) {
         return CompaniesApi.super.searchEmployees(companyId, name);
     }
 
     @Override
-    public ResponseEntity<Company> updateCompanyById(Integer companyId, Company company) {
+    public ResponseEntity<Company> updateCompanyById(String companyId, Company company) {
         return CompaniesApi.super.updateCompanyById(companyId, company);
     }
 
     @Override
-    public ResponseEntity<Void> uploadCompanyLogo(Integer companyId, MultipartFile file) {
+    public ResponseEntity<Void> uploadCompanyLogo(String companyId, MultipartFile file) {
         return CompaniesApi.super.uploadCompanyLogo(companyId, file);
     }
 
     @Override
-    public ResponseEntity<Void> uploadServiceImage(Integer companyId, Integer serviceId, MultipartFile file) {
+    public ResponseEntity<Void> uploadServiceImage(String companyId, String serviceId, MultipartFile file) {
         return CompaniesApi.super.uploadServiceImage(companyId, serviceId, file);
     }
 }
